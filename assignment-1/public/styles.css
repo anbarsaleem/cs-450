@@ -1,0 +1,136 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+  padding-bottom: 60px;
+  font-size: 0.7em;
+}
+
+hr.solid {
+  border-top: 1px solid #000;
+  width: 95%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  padding-left: 20px;
+  margin: 0;
+  width: 17%;
+  font-size: 1em;
+}
+
+h3 {
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+}
+
+div.right-column p {
+  margin: 5px;
+}
+
+.header-separator {
+  height: 4px;
+  background-color: #fac105;
+  margin: 0; /* Extend to the edges of the container */
+}
+
+.section {
+  margin: 20px 0;
+  display: flex;
+}
+
+.section h2 {
+  font-style: italic;
+  margin: 0;
+}
+
+.job,
+.skills-grid,
+.section p {
+  padding-left: 20px;
+}
+
+.job {
+  margin-bottom: 10px;
+}
+
+div.job p {
+  padding-left: 0;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.skills-grid p {
+  margin: 1px;
+  font-size: 1em;
+  padding: 1px;
+  width: 25%;
+}
+
+.school {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.details {
+  margin-top: 1px;
+}
+
+.section-title {
+  width: 20%;
+}
+
+.entries {
+  width: 80%;
+  margin-right: 20px;
+  margin-top: 0;
+}
+
+.entries p {
+  margin-top: 0;
+  font-size: 1.1em;
+}
