@@ -1,5 +1,5 @@
 {
-  "name": "to0-do",
+  "name": "assignment-2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -34,12 +34,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@mui/material": "^6.1.1",
-    "d3": "^6.7.0",
-    "recharts": "^2.12.7"
   }
 }

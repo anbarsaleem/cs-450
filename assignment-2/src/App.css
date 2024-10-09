@@ -1,0 +1,155 @@
+/* Container styles */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header styles */
+.header {
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: space-between;
+  padding: 50px;
+  padding-bottom: 60px;
+  font-size: 0.7em;
+}
+
+/* Horizontal line styles */
+hr.solid {
+  border-top: 1px solid #000;
+  width: 95%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Typography */
+h1 {
+  font-size: 2em;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  padding-left: 20px;
+  margin: 0;
+  width: 20%; /* Match width with other section titles */
+  font-size: 1em;
+}
+
+h3 {
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+
+/* Column styles */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+div.right-column p {
+  margin: 5px;
+}
+
+/* Separator between header and content */
+.header-separator {
+  height: 4px !important;
+  background-color: #fac105 !important;
+  width: 100%;
+  margin: 0;
+}
+
+/* Section container */
+.section {
+  margin: 20px 0;
+  display: flex;
+}
+
+/* Section titles */
+.section h2 {
+  font-style: italic;
+  margin: 0;
+  width: 20%; /* Align section titles uniformly */
+}
+
+/* Work experience job entry styling */
+.job,
+.skills-grid,
+.section p {
+  padding-left: 20px;
+}
+
+.job {
+  margin-bottom: 10px;
+}
+
+div.job p {
+  padding-left: 0;
+}
+
+/* Skills grid */
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 80%;
+  margin-right: 20px;
+}
+
+.skills-grid p {
+  margin: 1px;
+  font-size: 1em;
+  padding: 1px;
+  width: 30%; /* Ensure 3 columns, adjusting to fit content */
+}
+
+/* Education entry styles */
+.school {
+  font-weight: bold;
+  margin-bottom: 8px;
+  margin-top: 10px;
+}
+
+.education-entries {
+  padding-left: 10px;
+  width: 80%;
+}
+
+.details {
+  padding-left: 0 !important;
+  margin-top: 1px;
+}
+
+/* Section title styling */
+.section-title {
+  width: 20%;
+}
+
+/* Entries content container */
+.entries {
+  width: 80%;
+  margin-right: 20px;
+  margin-top: 0;
+}
+
+/* Adjust content within entries */
+.entries p {
+  margin-top: 0;
+  font-size: 1.1em;
+}

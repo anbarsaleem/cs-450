@@ -1,45 +1,33 @@
 import React, { Component } from "react";
+import * as d3 from "d3";
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todos: [],
-      inputText: "",
-    };
+  componentDidMount() {
+    var data1 = [
+      { x: 20, y: 20 },
+      { x: 60, y: 20 },
+      { x: 100, y: 60 },
+      { x: 170, y: 80 },
+    ];
+
+    d3.select('.mysvg').selectAll("circle").data(data1)
+      .join("circle") // Directly using "circle" here tells D3 to append circles for new data
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+        .attr("r", 10)
+        .attr("fill", 'green')
   }
-  handleInputChange = (e) => {
-    this.setState({ inputText: e.target.value });
-  };
-  handleButtonClick = () => {
-    this.setState({
-      todos: [...this.state.todos, this.state.inputText],
-    });
-  };
+
   render() {
     return (
-      <div>
-        <input type="text" onChange={this.handleInputChange}></input>
-        <button onClick={this.handleButtonClick}>Add Todo</button>
-        {this.state.todos.map((item) => {
-          return (
-            <div>
-              <p>{item}</p>
-              <button
-                onClick={() =>
-                  this.setState({
-                    todos: this.state.todos.filter(
-                      (element) => item != element
-                    ),
-                  })
-                }
-              >
-                Remove
-              </button>
-            </div>
-          );
-        })}
+      <div className="mydiv">
+        <svg className="mysvg" width="760" height="600">
+          <circle className="c3" cx="120" cy="250" r="10" fill="gray" />
+          <circle id="c_id4" cx="240" cy="250" r="10" fill="gray" />
+        </svg>
       </div>
     );
   }
 }
+
 export default App;
