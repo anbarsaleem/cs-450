@@ -28,7 +28,6 @@ class App extends Component {
 
     return (
       <div>
-        <h1>Tips Data Visualization</h1>
         <div className="chart-container">
           <Child1 data={this.state.data} />  {/* Scatter plot */}
         </div>
