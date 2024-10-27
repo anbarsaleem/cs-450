@@ -182,7 +182,7 @@ class App extends Component {
 
     const width = 1000; // Set to match the input width
     const height = 300;
-    const padding = 20;
+    const padding = 110;
 
     svg
       .attr("width", width)
@@ -190,23 +190,25 @@ class App extends Component {
       .style("background-color", "#1a1a1a");
 
     const maxFreq = data[0] ? data[0][1] : 1;
-    const fontSizeScale = d3.scaleLinear().domain([0, maxFreq]).range([20, 60]);
+    const fontSizeScale = d3.scaleLinear().domain([0, maxFreq]).range([10, 60]);
 
-    let currentX = padding;
-
+    // Calculate word widths and sizes BEFORE binding data to DOM
     const wordData = data.map((d) => {
       const fontSize = fontSizeScale(d[1]);
       const wordWidth = d[0].length * (fontSize * 0.6);
-      const wordX = currentX + wordWidth / 2;
-      currentX += wordWidth + 20;
       return {
         text: d[0],
         freq: d[1],
         fontSize,
         width: wordWidth,
-        x: wordX,
       };
     });
+
+    // distribute words evenly across svg width
+    const xScale = d3
+      .scaleLinear()
+      .domain([0, wordData.length - 1])
+      .range([padding, width - padding]);
 
     // Word selection
     const words = svg.selectAll("text").data(wordData, (d) => d.text);
@@ -216,27 +218,27 @@ class App extends Component {
       .enter()
       .append("text")
       .attr("text-anchor", "middle")
-      .attr("x", (d) => d.x)
+      .attr("x", (d, i) => xScale(i))
       .attr("y", height / 2)
       .text((d) => d.text)
       .attr("fill", "white")
       .style("font-family", "Times New Roman")
-      .style("font-size", "1px") // Start small (animation from nothing)
+      .style("font-size", "1px")
       .style("opacity", 0)
       .transition()
-      .duration(2000)
+      .duration(2500)
       .style("font-size", (d) => `${d.fontSize}px`)
       .style("opacity", 1);
 
-    // UPDATE existing words
+    // udpate existing words
     words
       .transition()
-      .duration(2000)
-      .attr("x", (d) => d.x)
+      .duration(2500)
+      .attr("x", (d, i) => xScale(i))
       .attr("y", height / 2)
       .style("font-size", (d) => `${d.fontSize}px`);
 
-    // EXIT old words that are no longer in the data
+    // remove old words that are no longer to be considered
     words.exit().transition().duration(2000).style("opacity", 0).remove();
   }
 
