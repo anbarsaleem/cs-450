@@ -38,8 +38,10 @@ class Child1 extends Component {
 
     const svg = d3
       .select("#chart")
-      .attr("width", svgWidth)
-      .attr("height", svgHeight)
+      .attr("width", width)
+      .attr("height", height)
+      //.attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`)
+      //.attr("preserveAspectRatio", "xMinYMin meet")
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
