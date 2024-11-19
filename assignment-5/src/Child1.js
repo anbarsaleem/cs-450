@@ -8,6 +8,11 @@ class Child1 extends Component {
     selectedMonth: "November",
   };
 
+
+  componentDidMount() {
+    this.renderChart();
+  }
+
   componentDidUpdate() {
     this.renderChart();
   }
@@ -130,7 +135,7 @@ class Child1 extends Component {
     // legend
     const legend = svg
       .append("g")
-      .attr("transform", `translate(${width - 50}, 5)`); // Position the legend
+      .attr("transform", `translate(${width - 50}, 5)`);
 
     // Close line legend
     legend
