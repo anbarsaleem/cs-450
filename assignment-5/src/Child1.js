@@ -38,8 +38,8 @@ class Child1 extends Component {
 
     const svg = d3
       .select("#chart")
-      .attr("width", width)
-      .attr("height", height)
+      .attr("width", svgWidth)
+      .attr("height", svgHeight)
       //.attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`)
       //.attr("preserveAspectRatio", "xMinYMin meet")
       .append("g")
@@ -75,12 +75,14 @@ class Child1 extends Component {
     const lineOpen = d3
       .line()
       .x((d) => xScale(d.Date))
-      .y((d) => yScale(d.Open));
+      .y((d) => yScale(d.Open))
+      .curve(d3.curveMonotoneX);
 
     const lineClose = d3
       .line()
       .x((d) => xScale(d.Date))
-      .y((d) => yScale(d.Close));
+      .y((d) => yScale(d.Close))
+      .curve(d3.curveMonotoneX);
 
     svg
       .append("path")
