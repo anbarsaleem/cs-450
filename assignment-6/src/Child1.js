@@ -45,7 +45,7 @@ class Child1 extends Component {
       colors[key] = colorPalette[index % colorPalette.length];
     });
 
-    const parseDate = d3.timeParse("%Y-%m-%d");
+    const parseDate = d3.timeParse("%Y/%m/%d");
 
     data.forEach(function (d) {
       d.Date = parseDate(d.Date);
