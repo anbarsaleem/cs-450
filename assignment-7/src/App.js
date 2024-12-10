@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
-import FileUpload from './FileUpload';
-import Visualization from './Visualization';
+import React, { useState } from "react";
+import FileUpload from "./FileUpload";
+import Visualization from "./Visualization";
 
 function App() {
-  const [uploadedTweets, setUploadedTweets] = useState([]);
+  const [data, setData] = useState(null);
 
-  // This will be called by FileUpload once the user has uploaded and parsed the file
-  const handleFileUpload = (data) => {
-    setUploadedTweets(data);
+  const handleDataUpload = (jsonData) => {
+    console.log(jsonData)
+    setData(jsonData);
   };
 
   return (
     <div>
-      <FileUpload onUpload={handleFileUpload} />
-      {/* Only render the visualization if we have uploaded tweets */}
-      {uploadedTweets.length > 0 && (
-        <Visualization tweetsData={uploadedTweets} />
-      )}
+      <FileUpload onUpload={handleDataUpload} />
+      {data && <Visualization tweetsData={data} />}
     </div>
   );
 }

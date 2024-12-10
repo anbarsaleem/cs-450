@@ -25,58 +25,66 @@ function createLinearGradient(svg, id, stops) {
   });
 }
 
-function createLegend(svg, width, sentimentColorScale, subjectivityColorScale, mode) {
+function createLegend(svg, width, height, colorMode) {
+  svg.selectAll(".legend-group").remove();
+
+  const legendHeight = height * 0.5;
+  const legendTop = (height - legendHeight) / 2;
+
   const legendGroup = svg.append("g")
     .attr("class", "legend-group")
-    .attr("transform", `translate(${width - 150}, 50)`);
+    .attr("transform", `translate(${width - 150}, ${legendTop})`);
 
-  if (mode === "Sentiment") {
+  const topLabelY = 20;
+  const bottomLabelY = legendHeight - 20;
+
+  if (colorMode === "Sentiment") {
     const gradientId = "sentimentGradient";
     createLinearGradient(svg, gradientId, [
-      { offset: "0%", color: "red" },
+      { offset: "0%", color: "green" },
       { offset: "50%", color: "#ECECEC" },
-      { offset: "100%", color: "green" },
+      { offset: "100%", color: "red" },
     ]);
 
     legendGroup.append("rect")
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 20)
-      .attr("height", 100)
+      .attr("height", legendHeight)
       .style("fill", `url(#${gradientId})`);
 
     legendGroup.append("text")
       .attr("x", 30)
-      .attr("y", 10)
-      .text("Negative");
+      .attr("y", topLabelY)
+      .text("Positive");
 
     legendGroup.append("text")
       .attr("x", 30)
-      .attr("y", 100)
-      .text("Positive");
+      .attr("y", bottomLabelY)
+      .text("Negative");
   } else {
     const gradientId = "subjectivityGradient";
     createLinearGradient(svg, gradientId, [
-      { offset: "0%", color: "#ECECEC" },
-      { offset: "100%", color: "#4467C4" },
+      { offset: "0%", color: "#4467C4" },
+      { offset: "100%", color: "#ECECEC" },
     ]);
 
     legendGroup.append("rect")
       .attr("x", 0)
       .attr("y", 0)
       .attr("width", 20)
-      .attr("height", 100)
+      .attr("height", legendHeight)
       .style("fill", `url(#${gradientId})`);
 
     legendGroup.append("text")
       .attr("x", 30)
-      .attr("y", 10)
-      .text("Objective");
+      .attr("y", topLabelY)
+      .text("Subjective");
 
     legendGroup.append("text")
       .attr("x", 30)
-      .attr("y", 100)
-      .text("Subjective");
+      .attr("y", bottomLabelY)
+      .text("Objective");
   }
 }
 
@@ -88,7 +96,7 @@ const Visualization = ({ tweetsData }) => {
   const sentimentColorScale = d3.scaleLinear()
     .domain([-1, 0, 1])
     .range(["red", "#ECECEC", "green"])
-    .clamp(true); // ensure values outside domain do not break the scale
+    .clamp(true);
 
   const subjectivityColorScale = d3.scaleLinear()
     .domain([0, 1])
@@ -96,19 +104,15 @@ const Visualization = ({ tweetsData }) => {
     .clamp(true);
 
   useEffect(() => {
-    // Guard clause
     if (!tweetsData || !Array.isArray(tweetsData) || tweetsData.length === 0) return;
 
-    // Take only the first 300 entries
-    const dataToVisualize = tweetsData.slice(0, 300);
-
-    // Parse numeric fields
-    dataToVisualize.forEach((d) => {
-      d.Sentiment = +d.Sentiment;
-      d.Subjectivity = +d.Subjectivity;
-      d["Dimension 1"] = +d["Dimension 1"];
-      d["Dimension 2"] = +d["Dimension 2"];
-    });
+    const dataToVisualize = tweetsData.slice(0, 300).map(d => ({
+      ...d,
+      Sentiment: +d.Sentiment,
+      Subjectivity: +d.Subjectivity,
+      "Dimension 1": +d["Dimension 1"],
+      "Dimension 2": +d["Dimension 2"],
+    }));
 
     const width = 800;
     const height = 500;
@@ -119,7 +123,6 @@ const Visualization = ({ tweetsData }) => {
     svg.selectAll("*").remove();
 
     const months = [...new Set(dataToVisualize.map((d) => d.Month))];
-    // If no months found or data doesn't have expected months:
     if (months.length === 0) {
       console.warn("No distinct months found in data. Check your Month field.");
     }
@@ -130,9 +133,9 @@ const Visualization = ({ tweetsData }) => {
     });
 
     const simulation = d3.forceSimulation(dataToVisualize)
-      .force("x", d3.forceX(width / 2).strength(0.05))
       .force("y", d3.forceY((d) => monthPositions[d.Month] || height / 2).strength(0.2))
       .force("collide", d3.forceCollide(6))
+      .force("x", d3.forceX(width / 1.5).strength(0.015))
       .stop();
 
     for (let i = 0; i < 300; i++) simulation.tick();
@@ -167,15 +170,20 @@ const Visualization = ({ tweetsData }) => {
         .attr("y", monthPositions[m])
         .attr("dy", ".35em")
         .attr("text-anchor", "end")
-        .text(m);
+        .text(m)
+        .style("font-weight", "bold");
     });
 
-    createLegend(svg, width, sentimentColorScale, subjectivityColorScale, colorMode);
+    createLegend(svg, width, height, colorMode);
   }, [tweetsData]);
 
   useEffect(() => {
     if (!tweetsData || !Array.isArray(tweetsData) || tweetsData.length === 0) return;
+
+    const width = 800;
+    const height = 500;
     const svg = d3.select(svgRef.current);
+
     svg.selectAll(".tweet-node")
       .transition()
       .duration(500)
@@ -185,8 +193,7 @@ const Visualization = ({ tweetsData }) => {
           : subjectivityColorScale(d.Subjectivity)
       );
 
-    svg.selectAll(".legend-group").remove();
-    createLegend(svg, 800, sentimentColorScale, subjectivityColorScale, colorMode);
+    createLegend(svg, width, height, colorMode);
   }, [colorMode, tweetsData]);
 
   useEffect(() => {
@@ -201,10 +208,14 @@ const Visualization = ({ tweetsData }) => {
       );
   }, [selectedTweets, tweetsData]);
 
+  useEffect(() => {
+    setSelectedTweets([]);
+  }, [colorMode]);
+
   return (
-    <div>
+    <div style={{ marginLeft: "20px", marginTop: "20px" }}>
       <div>
-        <label>Color By: </label>
+        <label style={{ fontWeight: "bold" }}>Color By: </label>
         <select value={colorMode} onChange={(e) => setColorMode(e.target.value)}>
           <option value="Sentiment">Sentiment</option>
           <option value="Subjectivity">Subjectivity</option>
